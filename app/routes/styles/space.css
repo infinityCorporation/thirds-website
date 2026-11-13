@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:wght@400;500;700&display=swap');
+
+/* ---------- Palette ---------- */
+.space-main-component {
+    --ink: #14213d;        /* deep navy: text + outlines */
+    --mint: #d9f2e6;       /* page background */
+    --cobalt: #3a56e8;     /* activity block */
+    --tangerine: #ff7a3d;  /* hours sticker */
+    --sky: #a8dcf5;        /* accents */
+    --lilac: #c4b5fd;      /* accents */
+    --paper: #ffffff;
+
+    --display: 'Bricolage Grotesque', 'Trebuchet MS', sans-serif;
+    --body: 'DM Sans', system-ui, -apple-system, sans-serif;
+
+    position: relative;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: clamp(1.5rem, 5vw, 4rem) clamp(1.25rem, 5vw, 3rem) 5rem;
+    background:
+        radial-gradient(circle at 92% 8%, var(--sky) 0 9rem, transparent 9.05rem),
+        radial-gradient(circle at 4% 96%, var(--lilac) 0 11rem, transparent 11.05rem),
+        var(--mint);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    overflow: hidden;
+}
+
+.space-main-component *,
+.space-main-component *::before,
+.space-main-component *::after {
+    box-sizing: border-box;
+}
+
+.space-main-component > * {
+    position: relative;
+    z-index: 1;
+    max-width: 44rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.space-back::before {
+    content: '';
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-left: 0.2rem;
+    border-left: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    transform: rotate(45deg);
+}
+ 
+.space-back:hover {
+    background: var(--lilac);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--ink);
+}
+ 
+.space-back:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 var(--ink);
+}
+ 
+.space-back:focus-visible {
+    outline: 3px solid var(--cobalt);
+    outline-offset: 3px;
+}
+
+.space-back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.45rem 1.1rem 0.45rem 0.8rem;
+    background: var(--paper);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 3px 3px 0 var(--ink);
+    font-family: var(--body);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+    margin-left: 0;
+}
+
+/* ---------- Title ---------- */
+.space-main-component h1 {
+    margin: 0 0 1.75rem;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 8vw, 4.75rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+}
+
+/* ---------- Description ---------- */
+.space-description {
+    margin: 0 0 2.5rem;
+    padding: 1.5rem 1.75rem;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 1.5rem 1.5rem 1.5rem 0.25rem;
+    box-shadow: 8px 8px 0 var(--ink);
+    font-size: 1.125rem;
+    max-width: 44rem;
+}
+
+/* ---------- Hours sticker ---------- */
+.space-hours {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 1.75rem;
+    padding: 0.5rem 1.1rem 0.5rem 0.65rem;
+    background: var(--tangerine);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    font-weight: 700;
+    line-height: 1.2;
+    transform: rotate(-2.5deg);
+    animation: sticker-pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+
+.space-hours::before {
+    content: '';
+    flex: none;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    border: 3px solid var(--ink);
+    background:
+        linear-gradient(var(--ink), var(--ink)) 50% 20% / 3px 35% no-repeat,
+        linear-gradient(var(--ink), var(--ink)) 62% 52% / 30% 3px no-repeat,
+        var(--paper);
+}
+
+@keyframes sticker-pop {
+    from { transform: rotate(-14deg) scale(0.6); opacity: 0; }
+    to   { transform: rotate(-2.5deg) scale(1); opacity: 1; }
+}
+
+/* ---------- Things to do ---------- */
+.area-discussion {
+    position: relative;
+    margin-top: 3rem;
+    padding: 2.5rem 1.75rem 1.75rem;
+    background: var(--cobalt);
+    color: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 0.25rem 1.5rem 1.5rem 1.5rem;
+    box-shadow: 8px 8px 0 var(--ink);
+}
+
+.area-discussion p {
+    margin: 0;
+}
+
+/* The question doubles as a tab on the block */
+.area-discussion p:first-child {
+    position: absolute;
+    top: 0;
+    left: 1.25rem;
+    transform: translateY(-55%) rotate(1.5deg);
+    padding: 0.35rem 1rem;
+    background: var(--sky);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.05rem;
+    line-height: 1.3;
+}
+
+/* ---------- Not-found state ---------- */
+.space-not-found {
+    padding: 1.5rem 1.75rem;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 1.5rem;
+    box-shadow: 8px 8px 0 var(--tangerine);
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 1.35rem;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 480px) {
+    .space-description,
+    .area-discussion {
+        box-shadow: 5px 5px 0 var(--ink);
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .space-hours {
+        animation: none;
+    }
+}
