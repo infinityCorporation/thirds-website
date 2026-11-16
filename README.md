@@ -1,87 +1,28 @@
-# Welcome to React Router!
+### Welcome to Thirds
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Thirds is a website designed to help users find third spaces in their communities. The idea is to help users find places to hang out alone or with friends near where they live. It is currently under development and only exists as a beta testing version. 
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+# Getting Started
 
-## Features
+To test the site out, you can run it by following these steps:
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+1. Pull the github repo to your local machine.
+2. Install all packages using the npm command ```npm i```
+3. Create the .env file and add a javascript google maps API key
+4. Run the program with ```npm run dev```
 
-## Getting Started
+# Application Stack
 
-### Installation
+This app was created as a test of React Router v7, which brings large differences from React Router v6 used in previous apps. It also utilizes other new tech components such as:
 
-Install the dependencies:
+1. Google Maps API
+2. React Router v7 (Framework Mode)
+3. React Framework
 
-```bash
-npm install
-```
+# Attribution
 
-### Development
+This app was created by Evan Frisbie. All functional development work was done by myself. AI agents were used to generate some of the styling components and import the specialized fonts. The app is currently under a free distribution liscense but I reserve all rights to any and all intellectual property contained within the application or the structure of the application. 
 
-Start the development server with HMR:
+# Get Help
 
-```bash
-npm run dev
-```
-
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+If you have questions about the app, need help getting started, or are interested inquiring further you can reach me by sending me a message on github.com. If you create a pull request I can also provide you with an email address.

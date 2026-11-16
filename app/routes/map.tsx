@@ -3,19 +3,20 @@ import React, { useState, useRef, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { DROP_POINTS } from '~/data/locations';
 import { distanceInMiles } from '~/utilities/distanceInMiles';
-import { Marker } from '~/components/Marker';
-import { Link } from 'react-router';
+import Marker from '../components/Marker';
+import { Link, useSearchParams } from 'react-router';
 
 const DEFAULT_CENTER = { lat: 41.4993, lng: -81.6944 };
 const DEFAULT_ZOOM = 12;
 const RADIUS_MILES = 10;
 
 export default function Map() {
-    const [apiReady, setApiReady] = useState(false);
-    const [zipCodeInput, setZipCodeInput] = useState('44106');
-    const [center, setCenter] = useState(DEFAULT_CENTER);
-
     const mapsRef = useRef<{ map: any; maps: any }>({ map: null, maps: null });
+    const [searchParams] = useSearchParams();
+
+    const [apiReady, setApiReady] = useState(false);
+    const [zipCodeInput, setZipCodeInput] = useState(searchParams.get("zip") || "44106");
+    const [center, setCenter] = useState(DEFAULT_CENTER);
 
     const handleApiLoaded = ({ map, maps }: any) => {
         mapsRef.current = { map, maps };
@@ -107,7 +108,7 @@ return (
                         <button
                             className="zip-submit"
                             id="zip-submit"
-                            onClick={() => updateMapLocation()}
+                            onClick={() => {}}
                         >
                             Submit
                         </button>
@@ -139,7 +140,7 @@ return (
                     onGoogleApiLoaded={handleApiLoaded}
                 >
                     {nearbyDropPoints.map((p) => (
-                        <Marker key={p.id} lat={p.lat} lng={p.lng} name={p.name} />
+                        <Marker key={p.id} lat={p.lat} lng={p.lng} name={p.name} onClick={() => {}} />
                     ))}
                 </GoogleMapReact>
             </div>
