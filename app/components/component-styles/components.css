@@ -37,7 +37,7 @@
 .ui-page {
     position: relative;
     min-height: 100vh;
-    padding: clamp(1.5rem, 5vw, 4rem) clamp(1.25rem, 5vw, 3rem) 5rem;
+    padding: clamp(1.5rem, 0.5vw, 4rem) clamp(1.25rem, 0.5vw, 3rem) 5rem;
     background:
         radial-gradient(circle at 92% 8%, var(--ui-sky) 0 9rem, transparent 9.05rem),
         radial-gradient(circle at 4% 96%, var(--ui-lilac) 0 11rem, transparent 11.05rem),
@@ -94,7 +94,7 @@
 
 .ui-title {
     font-weight: 800;
-    font-size: clamp(2.5rem, 8vw, 4.75rem);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
     line-height: 0.98;
     letter-spacing: -0.03em;
 }

@@ -5,10 +5,11 @@ import { DROP_POINTS } from '~/data/locations';
 import { distanceInMiles } from '~/utilities/distanceInMiles';
 import Marker from '../components/Marker';
 import { Link, useSearchParams } from 'react-router';
+import { cleZips } from '~/data/clevelandZips';
 
 const DEFAULT_CENTER = { lat: 41.4993, lng: -81.6944 };
-const DEFAULT_ZOOM = 12;
-const RADIUS_MILES = 10;
+const DEFAULT_ZOOM = 16;
+const RADIUS_MILES = 5;
 
 export default function Map() {
     const mapsRef = useRef<{ map: any; maps: any }>({ map: null, maps: null });
@@ -17,14 +18,33 @@ export default function Map() {
     const [apiReady, setApiReady] = useState(false);
     const [zipCodeInput, setZipCodeInput] = useState(searchParams.get("zip") || "44106");
     const [center, setCenter] = useState(DEFAULT_CENTER);
+    const [zipCodeErr, setZipCodeErr] = useState(false);
+    const [zipNearCle, setZipNearCle] = useState(true);
 
     const handleApiLoaded = ({ map, maps }: any) => {
         mapsRef.current = { map, maps };
         setApiReady(true);
     };
 
+    // need a func to check if zip is valid - add err message for this
+    const isZipValid = (zipCode: string): void => {
+        if (!/^\d{5}$/.test(zipCode)) setZipCodeErr(true);
+    };
+
+    // need a func to check if zip is near cleveland (for now) - add err message for this
+    const isZipNearCle = (zipCode: string): void => {
+        if (!cleZips.includes(zipCode)) setZipNearCle(false);
+    };
+
     const updateMapLocation = (current_zip_code: string) => {
+        setZipCodeErr(false);
+        setZipNearCle(true);
+
+        isZipValid(current_zip_code);
+
         if (!apiReady || !/^\d{5}$/.test(zipCodeInput)) return;
+
+        isZipNearCle(current_zip_code);
 
         const { map, maps } = mapsRef.current;
         const geocoder = new maps.Geocoder();
@@ -41,7 +61,7 @@ export default function Map() {
                         map.fitBounds(geometry.viewport);
                     } else {
                         map.setCenter(geometry.location);
-                        map.setZoom(14);
+                        map.setZoom(DEFAULT_ZOOM);
                     }
                 } else {
                     console.log('Geocoding failed: ', status);
@@ -50,32 +70,10 @@ export default function Map() {
         );
     }
 
+    // Changed to only update when the submit button is pressed
     useEffect(() => {
-        if (!apiReady || !/^\d{5}$/.test(zipCodeInput)) return;
-
-        const { map, maps } = mapsRef.current;
-        const geocoder = new maps.Geocoder();
-
-        geocoder.geocode(
-            {
-                componentRestrictions: { postalCode: zipCodeInput, country: 'US' },
-            },
-            (results: any, status: any) => {
-                if (status === 'OK' && results[0]) {
-                    const { geometry } = results[0];
-
-                    if (geometry.viewport) {
-                        map.fitBounds(geometry.viewport);
-                    } else {
-                        map.setCenter(geometry.location);
-                        map.setZoom(14);
-                    }
-                } else {
-                    console.log('Geocoding failed: ', status);
-                }
-            }
-        );
-    }, [zipCodeInput, apiReady]);
+        updateMapLocation(zipCodeInput);
+    }, [apiReady]);
 
     const updateZipCode = (e: any) => {
         setZipCodeInput(e.target.value);
@@ -108,10 +106,14 @@ return (
                         <button
                             className="zip-submit"
                             id="zip-submit"
-                            onClick={() => {}}
+                            onClick={() => {updateMapLocation(zipCodeInput)}}
                         >
                             Submit
                         </button>
+                    </div>
+                    <div className='zip-errs' >
+                        { zipCodeErr ? <p>Please use a valid zip code.</p> : <></> }
+                        { !zipNearCle ? <p>Thirds is only available within 15 miles of cleveland.</p> : <></>}
                     </div>
                 </div>
                 <p className="list-heading">Spaces within {RADIUS_MILES} miles:</p>
