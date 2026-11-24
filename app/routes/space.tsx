@@ -2,6 +2,8 @@ import { useSearchParams } from "react-router-dom";
 import { DROP_POINTS } from "~/data/locations";
 import './styles/space.css';
 import { useLocation, useNavigate } from "react-router";
+
+import { BulletList } from "~/components/Components";
  
 export default function Space() {
     const [searchParams] = useSearchParams();
@@ -18,6 +20,13 @@ export default function Space() {
             navigate("/");
         }
     };
+
+    const activities = (): string[] => {
+        const active_description: string = space.activity_description;
+        const description_array: string[] = active_description.split("Group:");
+
+        return description_array;
+    }
  
     const backButton = (
         <button type="button" className="space-back" onClick={goBack}>
@@ -41,7 +50,12 @@ export default function Space() {
             <p className="space-description">{space.description}</p>
             <div className="area-discussion">
                 <p>What is there to do here?</p>
-                <p>{space.activity_description}</p>
+                <BulletList
+                    items={[
+                        activities()[0],
+                        `Group: ${activities()[1]}`
+                    ]}
+                />
             </div>
         </div>
     );
