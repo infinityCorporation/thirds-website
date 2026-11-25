@@ -1,11 +1,12 @@
 import './styles/map.css';
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { DROP_POINTS } from '~/data/locations';
 import { distanceInMiles } from '~/utilities/distanceInMiles';
 import Marker from '../components/Marker';
 import { Link, useSearchParams } from 'react-router';
 import { cleZips } from '~/data/clevelandZips';
+
 
 const DEFAULT_CENTER = { lat: 41.4993, lng: -81.6944 };
 const DEFAULT_ZOOM = 16;
@@ -14,6 +15,8 @@ const RADIUS_MILES = 5;
 export default function Map() {
     const mapsRef = useRef<{ map: any; maps: any }>({ map: null, maps: null });
     const [searchParams] = useSearchParams();
+    const maps_key = import.meta.env.VITE_GOOGLE_MAPS_KEY
+    console.log(maps_key)
 
     const [apiReady, setApiReady] = useState(false);
     const [zipCodeInput, setZipCodeInput] = useState(searchParams.get("zip") || "44106");
@@ -135,7 +138,7 @@ return (
             </div>
             <div className="map-section">
                 <GoogleMapReact
-                    bootstrapURLKeys={{ key: import.meta.env.SECRET_VITE_GOOGLE_MAPS_KEY }}
+                    bootstrapURLKeys={{ key: maps_key }}
                     defaultCenter={DEFAULT_CENTER}
                     defaultZoom={DEFAULT_ZOOM}
                     yesIWantToUseGoogleMapApiInternals
