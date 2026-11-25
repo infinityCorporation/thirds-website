@@ -1,0 +1,47 @@
+/* Shared by SignIn and SignUp; everything else comes from components.css */
+
+.auth-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.auth-hero .ui-title {
+    font-size: clamp(2.5rem, 8vw, 3.75rem);
+}
+
+.auth-hero .ui-subtitle {
+    max-width: 26rem;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 3vw, 1.5rem);
+}
+
+.auth-card {
+    border-radius: 1.5rem 1.5rem 1.5rem 0.25rem;
+}
+
+.auth-form .ui-button {
+    margin-top: 0.5rem;
+    align-self: stretch;
+}
+
+.auth-switch {
+    font-size: 1rem;
+}
+
+.auth-switch a {
+    color: var(--ui-cobalt, #3a56e8);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+.auth-switch a:hover {
+    background: var(--ui-lilac, #c4b5fd);
+}
+.auth-switch a:focus-visible {
+    outline: 3px solid var(--ui-cobalt, #3a56e8);
+    outline-offset: 3px;
+    border-radius: 4px;
+}

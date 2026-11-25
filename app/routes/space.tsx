@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { DROP_POINTS } from "~/data/locations";
 import './styles/space.css';
 import { useLocation, useNavigate } from "react-router";

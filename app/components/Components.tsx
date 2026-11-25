@@ -6,7 +6,7 @@ import {
     type SelectHTMLAttributes,
     type TextareaHTMLAttributes,
 } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router";
 import "./component-styles/components.css";
 
 const cx = (...parts: Array<string | false | null | undefined>) =>
