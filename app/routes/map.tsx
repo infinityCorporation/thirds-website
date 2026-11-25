@@ -135,7 +135,7 @@ return (
             </div>
             <div className="map-section">
                 <GoogleMapReact
-                    bootstrapURLKeys={{ key: import.meta.env.VITE_GOOGLE_MAPS_KEY }}
+                    bootstrapURLKeys={{ key: import.meta.env.SECRET_VITE_GOOGLE_MAPS_KEY }}
                     defaultCenter={DEFAULT_CENTER}
                     defaultZoom={DEFAULT_ZOOM}
                     yesIWantToUseGoogleMapApiInternals
