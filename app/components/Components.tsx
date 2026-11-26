@@ -1,4 +1,7 @@
 import {
+    useState,
+    useEffect,
+    useRef,
     useId,
     type ButtonHTMLAttributes,
     type InputHTMLAttributes,
@@ -375,5 +378,117 @@ export function BulletList({ items }: { items: ReactNode[] }) {
                 <li key={i}>{item}</li>
             ))}
         </ul>
+    );
+}
+
+/* ============================================================
+   Account
+   ============================================================ */
+ 
+type AuthUser = {
+    displayName?: string | null;
+    email?: string | null;
+    photoURL?: string | null;
+};
+ 
+/**
+ * Signed out: "Sign in" + "Sign up" buttons.
+ * Signed in: a round profile button that opens a small menu with a sign out action.
+ * A Firebase `User` can be passed straight in as `user`.
+ */
+export function AuthButton({
+    user,
+    loading,
+    onSignOut,
+    signInTo = "/login",
+    signUpTo = "/signup",
+    profileTo,
+    size = "md",
+}: {
+    user?: AuthUser | null;
+    /** While true, nothing is shown, so signed-out buttons don't flash for signed-in users. */
+    loading?: boolean;
+    onSignOut?: () => void;
+    signInTo?: string;
+    signUpTo?: string;
+    /** If set, the menu includes a link to the profile page. */
+    profileTo?: string;
+    size?: "sm" | "md";
+}) {
+    const [open, setOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+ 
+    useEffect(() => {
+        if (!open) return;
+        const onDown = (e: MouseEvent) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+        };
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setOpen(false);
+        };
+        document.addEventListener("mousedown", onDown);
+        document.addEventListener("keydown", onKey);
+        return () => {
+            document.removeEventListener("mousedown", onDown);
+            document.removeEventListener("keydown", onKey);
+        };
+    }, [open]);
+ 
+    if (loading) return <div className="ui-auth ui-auth--loading" aria-hidden="true" />;
+ 
+    if (!user) {
+        return (
+            <div className="ui-auth">
+                <Link to={signInTo} className={cx("ui-button", "ui-button--secondary", `ui-button--${size}`)}>
+                    Sign in
+                </Link>
+                <Link to={signUpTo} className={cx("ui-button", "ui-button--primary", `ui-button--${size}`)}>
+                    Sign up
+                </Link>
+            </div>
+        );
+    }
+ 
+    const label = user.displayName || user.email || "Account";
+    const initial = label.trim().charAt(0).toUpperCase() || "?";
+ 
+    return (
+        <div className="ui-auth" ref={ref}>
+            <button
+                type="button"
+                className="ui-avatar"
+                aria-haspopup="menu"
+                aria-expanded={open}
+                aria-label="Account menu"
+                onClick={() => setOpen((o) => !o)}
+            >
+                {user.photoURL ? <img src={user.photoURL} alt="" /> : initial}
+            </button>
+            {open && (
+                <div className="ui-auth-menu" role="menu">
+                    <p className="ui-auth-menu-label">Signed in as</p>
+                    <p className="ui-auth-menu-name">{label}</p>
+                    {profileTo && (
+                        <Link
+                            to={profileTo}
+                            className="ui-button ui-button--secondary ui-button--sm"
+                            onClick={() => setOpen(false)}
+                        >
+                            Your profile
+                        </Link>
+                    )}
+                    <button
+                        type="button"
+                        className="ui-button ui-button--primary ui-button--sm"
+                        onClick={() => {
+                            setOpen(false);
+                            onSignOut?.();
+                        }}
+                    >
+                        Sign out
+                    </button>
+                </div>
+            )}
+        </div>
     );
 }

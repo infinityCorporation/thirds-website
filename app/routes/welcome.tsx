@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import {
+    AuthButton,
     Badge,
     BulletList,
     Button,
@@ -14,13 +15,15 @@ import {
     Subtitle,
     Text,
     Title,
-} from "../components/Components"; // adjust to wherever you put components.tsx
+} from "~/components/Components"; // adjust to wherever you put the components file
+import { useAuthUser } from "~/hooks/useAuthUser";
 import "./styles/welcome.css";
 
 export default function Welcome() {
     const [zipInput, setZipInput] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { user, loading, signOut } = useAuthUser();
 
     const submitZip = () => {
         const zip = zipInput.trim();
@@ -36,6 +39,12 @@ export default function Welcome() {
         <Page>
             <Container narrow>
                 <Stack gap="lg">
+                    {/* Top bar: brand on the left, sign in / profile on the right */}
+                    <div className="welcome-topbar">
+                        <span className="welcome-brand">Thirds</span>
+                        <AuthButton user={user} loading={loading} onSignOut={signOut} />
+                    </div>
+
                     {/* Hero */}
                     <header className="welcome-hero">
                         <Badge tone="tangerine" tilt>

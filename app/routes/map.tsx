@@ -6,6 +6,8 @@ import { distanceInMiles } from '~/utilities/distanceInMiles';
 import Marker from '../components/Marker';
 import { Link, useSearchParams } from 'react-router';
 import { cleZips } from '~/data/clevelandZips';
+import { AuthButton } from '~/components/Components';
+import { useAuthUser } from '~/hooks/useAuthUser';
 
 
 const DEFAULT_CENTER = { lat: 41.4993, lng: -81.6944 };
@@ -16,7 +18,7 @@ export default function Map() {
     const mapsRef = useRef<{ map: any; maps: any }>({ map: null, maps: null });
     const [searchParams] = useSearchParams();
     const maps_key = import.meta.env.VITE_GOOGLE_MAPS_KEY
-    console.log(maps_key)
+    const { user, loading, signOut } = useAuthUser();
 
     const [apiReady, setApiReady] = useState(false);
     const [zipCodeInput, setZipCodeInput] = useState(searchParams.get("zip") || "44106");
@@ -90,11 +92,15 @@ export default function Map() {
         .filter((point) => point.distance <= RADIUS_MILES)
         .sort((a, b) => a.distance - b.distance)
 
-return (
+    return (
         <div className="root">
             <div className="info-column">
                 <div className="info-header">
-                    <p className="info-title">Find Third Spaces</p>
+                    <div className="welcome-topbar">
+                        <span className="welcome-brand">Thirds</span>
+                        <AuthButton user={user} loading={loading} onSignOut={signOut} />
+                    </div>
+                    <p className="info-title">Find Spaces:</p>
                     <div className="zip-form">
                         <input
                             type="text"
@@ -109,14 +115,10 @@ return (
                         <button
                             className="zip-submit"
                             id="zip-submit"
-                            onClick={() => {updateMapLocation(zipCodeInput)}}
+                            onClick={() => updateMapLocation(zipCodeInput)}
                         >
                             Submit
                         </button>
-                    </div>
-                    <div className='zip-errs' >
-                        { zipCodeErr ? <p>Please use a valid zip code.</p> : <></> }
-                        { !zipNearCle ? <p>Thirds is only available within 15 miles of cleveland.</p> : <></>}
                     </div>
                 </div>
                 <p className="list-heading">Spaces within {RADIUS_MILES} miles:</p>
@@ -138,14 +140,14 @@ return (
             </div>
             <div className="map-section">
                 <GoogleMapReact
-                    bootstrapURLKeys={{ key: maps_key }}
+                    bootstrapURLKeys={{ key: import.meta.env.VITE_GOOGLE_MAPS_KEY }}
                     defaultCenter={DEFAULT_CENTER}
                     defaultZoom={DEFAULT_ZOOM}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={handleApiLoaded}
                 >
                     {nearbyDropPoints.map((p) => (
-                        <Marker key={p.id} lat={p.lat} lng={p.lng} name={p.name} onClick={() => {}} />
+                        <Marker key={p.id} lat={p.lat} lng={p.lng} name={p.name} />
                     ))}
                 </GoogleMapReact>
             </div>
